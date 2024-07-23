@@ -15,7 +15,7 @@
         <header class="bg-white shadow-md ">
             <nav class="container mx-auto px-4 flex items-center justify-between py-4">
                 <ul class="flex font-weight:800">
-                    <li class="font-bold"><a href="#"><img src="favicon.ico">TakeItAll</a></li>                    
+                    <li class="font-bold"><a href="#"><img src="favicon.ico" alt="Logo">TakeItAll</a></li>                    
                 </ul>
                 <div class="relative" x-data="{ isOpen: false }">
                     <button @click="isOpen = !isOpen" class="flex items-center" @keydown.escape="isOpen = false" type="button">
@@ -24,6 +24,7 @@
                         </svg>
                     </button>
                     <ul
+
                         x-show="isOpen"
                         @click.away="isOpen = false"
                         class="absolute font-normal bg-white shadow overflow-hidden rounded w-48 border mt-2 py-1 right-0 z-20">
@@ -56,9 +57,27 @@
                 </div>
             </nav>
         </header>
-        <!---->
+        <!--Searchbar-->
         <div class="mx-auto px-4 py-5 w-full max-w-4xl">
-            <div class="w-full flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+
+            <div class=" flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                <div x-data="{ open: false, selected: 'All Categories' }" class="w-full max-w-lg">
+                    <button @click="open = !open" class="bg-white text-black px-4 py-2 rounded shadow focus:outline-none focus:shadow-outline">
+                        <span x-text="selected"></span>
+                        <svg class="inline w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute mt-2 w-full bg-white rounded-md shadow-lg z-10">
+                        <ul>
+                            <li @click="selected = 'All Categories'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">All Categories</li>
+                            <li @click="selected = 'Electronics'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Electronics</li>
+                            <li @click="selected = 'Jewelery'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Jewelery</li>
+                            <li @click="selected = 'Men's Clothing'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Men's Clothing</li>
+                            <li @click="selected = 'Women's Clothing'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Women's Clothing</li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="w-full max-w-lg">
                     <div class="rounded px-4 pt-2 pb-2">
                         
@@ -84,49 +103,149 @@
                     </button>
                     <div x-show="open" @click.away="open = false" class="absolute mt-2 w-full bg-white rounded-md shadow-lg z-10">
                         <ul>
-                            <li @click="selected = 'Default'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Default</li>
-                            <li @click="selected = 'Price: Low to High'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Price: Low to High</li>
-                            <li @click="selected = 'Price: High to Low'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Price: High to Low</li>
+                            <li @click="selected = 'Price: Low to High'; open = false; sortProducts('asc')" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Price: Low to High</li>
+                            <li @click="selected = 'Price: High to Low'; open = false; sortProducts('desc')" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Price: High to Low</li>
                         </ul>
+                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--API-->
-        <div class="container mx-auto px-20 py-16 rounded-2xl h-20" x-data="{
-            products: [],
-            fetchProducts() {
-              fetch('https://fakestoreapi.com/products')
-                .then(response => response.json())
-                .then(data => {
-                  this.products = data;
-                  document.body.classList.add('loaded');
-                })
-                .catch(error => console.error('Error fetching products:', error));
-            }
-          }" x-init="fetchProducts()">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 ">
-            <template x-for="product in products" :key="product.id">
-                <div class="bg-white shadow rounded rounded-lg hover:pointer-cursor w-48 md:w-64">
-                    <img :src="product.image" alt="Product Image" class="w-32 h-25 object-cover mx-auto my-auto">
-                  <div class="p-4">
-                    <h2 class="text-lg font-semibold" x-text="product.title"></h2>
-                    <!--<div class="flex items-center mb-2">
-                        <template x-for="i in 5">
-                            <svg class="w-5 h-5" :class="i <= Math.round(product.rating.rate) ? 'text-yellow-400' : 'text-gray-300'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                            </svg>
-                        </template>
-                    </div>-->
-                    
-                    <p class="text-gray-600" x-text="'$' + product.price"></p>
-                    <p class="text-gray-600" x-text="'' + product.category"></p>
-                    <button class="mt-4 bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600">Add to Cart</button>
-                  </div>
-                </div>
-              </template>
-          </div>
+        <div>
+
+            <!--Modal-->
+            <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 py-6"></div>
+    <!--Modal-->
+    <div x-data="{ showModal: false, product: {} }">
+        <div x-show="showModal" class="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white p-6 rounded shadow-lg">
+                <h2 class="text-xl font-bold mb-2" x-text="product.title"></h2>
+                <img :src="product.image" class="w-full h-auto mb-4">
+                <p class="text-lg mb-4" x-text="'$' + product.price"></p>
+                <p class="mb-4" x-text="product.description"></p>
+                <button @click="showModal = false" class="bg-red-500 text-white px-4 py-2 rounded">Close</button>
+            </div>
         </div>
-      
-      </body>
-      </html>
+    </div>
+    <script>
+        async function fetchProducts() {
+            const response = await fetch('https://fakestoreapi.com/products');
+            const products = await response.json();
+            return products;
+        }
+
+        async function fetchProductDetails(productId) {
+            const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
+            const product = await response.json();
+            return product;
+        }
+
+        async function displayProducts(products) {
+            const productContainer = document.getElementById("productContainer");
+            productContainer.innerHTML = "";
+            products.forEach(product => {
+                const productElement = document.createElement("div");
+                productElement.className = "bg-white p-4 rounded shadow-md";
+                productElement.innerHTML = `
+                    <img src="${product.image}" class="w-full h-48 object-cover mb-4 cursor-pointer" data-id="${product.id}">
+                    <h2 class="text-lg font-bold mb-2 cursor-pointer" data-id="${product.id}">${product.title}</h2>
+                    <p class="text-lg font-semibold mb-2">$${product.price}</p>
+                `;
+                productContainer.appendChild(productElement);
+            });
+        }
+
+        function filterCategory(category) {
+            if (category === "All Categories") {
+                fetchProducts().then(displayProducts);
+            } else {
+                fetchProducts().then(products => {
+                    const filteredProducts = products.filter(product => product.category === category);
+                    displayProducts(filteredProducts);
+                });
+            }
+        }
+
+        function sortProducts(order) {
+            fetchProducts().then(products => {
+                const sortedProducts = [...products].sort((a, b) => {
+                    return order === 'asc' ? a.price - b.price : b.price - a.price;
+                });
+                displayProducts(sortedProducts);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchProducts().then(displayProducts);
+
+            document.getElementById("search").addEventListener("input", event => {
+                const searchTerm = event.target.value.toLowerCase();
+                fetchProducts().then(products => {
+                    const filteredProducts = products.filter(product => product.title.toLowerCase().includes(searchTerm));
+                    displayProducts(filteredProducts);
+                });
+            });
+
+            document.addEventListener("click", event => {
+                const target = event.target;
+                const productId = target.getAttribute("data-id");
+                if (productId) {
+                    fetchProductDetails(productId).then(product => {
+                        document.querySelector("[x-data]").__x.$data.showModal = true;
+                        document.querySelector("[x-data]").__x.$data.product = product;
+                    });
+                }
+            });
+        });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--<div class="container mx-auto px-20 py-16 rounded-2xl h-20" x-data="{
+        products: [],
+        fetchProducts() {
+        fetch('https://fakestoreapi.com/products')
+            .then(response => response.json())
+            .then(data => {
+            this.products = data;
+            document.body.classList.add('loaded');
+            })
+            .catch(error => console.error('Error fetching products:', error));
+        }
+    }" x-init="fetchProducts()">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <template x-for="product in products" :key="product.id">
+            <div class="bg-white shadow rounded rounded-lg hover:bg-white w-48 md:w-64">
+                <img :src="product.image" alt="Product Image" class="w-32 h-25 object-cover mx-auto my-auto cursor-pointer">
+            <div class="p-4">
+                <h2 @click="{modal : true}" class="text-lg font-semibold cursor-pointer" x-text="product.title"></h2>
+                
+                <p class="text-gray-600" x-text="'$' + product.price"></p>
+                <p class="text-gray-600" x-text="'' + product.category"></p>
+                <button class="mt-4 bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600">Add to Cart</button>
+            </div>
+        </template>

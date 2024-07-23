@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.2.0/dist/tailwind.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v1.9.8/dist/alpine.js" defer></script>
+    <title>TakeItAll</title>
+  </head>  
+    <body class="bg-gray-300 text-gray-800">
+        <header class="bg-white shadow-md ">
+            <nav class="container mx-auto px-4 flex items-center justify-between py-4">
+                <ul class="flex font-weight:800">
+                    <li class="font-bold"><a href="#"><img src="favicon.ico">TakeItAll</a></li>                    
+                </ul>
+                <div class="relative" x-data="{ isOpen: false }">
+                    <button @click="isOpen = !isOpen" class="flex items-center" @keydown.escape="isOpen = false" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                        </svg>
+                    </button>
+                    <ul
+                        x-show="isOpen"
+                        @click.away="isOpen = false"
+                        class="absolute font-normal bg-white shadow overflow-hidden rounded w-48 border mt-2 py-1 right-0 z-20">
+                        <li>
+                            <a href="#" class="flex items-center px-3 py-3 hover:bg-gray-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+                                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                                </svg>
+                                <span class="ml-2">Cart</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#" class="flex items-center px-3 py-3 hover:bg-gray-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                                </svg>
+                                <span class="ml-2">Wishlist</span>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#" class="flex items-center px-3 py-3 hover:bg-gray-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                                    <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                                </svg>
+                                <span class="ml-2">Login</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!---->
+        <div class="mx-auto px-4 py-5 w-full max-w-4xl">
+            <div class="w-full flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
+                <div class="w-full max-w-lg">
+                    <div class="rounded px-4 pt-2 pb-2">
+                        
+                        <div class="relative">
+                            
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search" type="text" placeholder="Search...">
+                            <button class="absolute inset-y-0 right-0 flex items-center px-4 text-white bg-blue-500 rounded-r hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--Sort By-->
+                <div x-data="{ open: false, selected: 'Default' }" class="relative w-full max-w-lg">
+                    <span class="font-bold">Sort By:</span>
+                    <button @click="open = !open" class="bg-white text-black px-4 py-2 rounded shadow focus:outline-none focus:shadow-outline">
+                        <span x-text="selected"></span>
+                        <svg class="inline w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" @click.away="open = false" class="absolute mt-2 w-full bg-white rounded-md shadow-lg z-10">
+                        <ul>
+                            <li @click="selected = 'Default'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Default</li>
+                            <li @click="selected = 'Price: Low to High'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Price: Low to High</li>
+                            <li @click="selected = 'Price: High to Low'; open = false" class="px-4 py-2 hover:bg-gray-200 cursor-pointer">Price: High to Low</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--API-->
+        <div class="container mx-auto px-20 py-16 rounded-2xl h-20" x-data="{
+            products: [],
+            fetchProducts() {
+              fetch('https://fakestoreapi.com/products')
+                .then(response => response.json())
+                .then(data => {
+                  this.products = data;
+                  document.body.classList.add('loaded');
+                })
+                .catch(error => console.error('Error fetching products:', error));
+            }
+          }" x-init="fetchProducts()">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 ">
+            <template x-for="product in products" :key="product.id">
+                <div class="bg-white shadow rounded rounded-lg hover:pointer-cursor w-48 md:w-64">
+                    <img :src="product.image" alt="Product Image" class="w-32 h-25 object-cover mx-auto my-auto">
+                  <div class="p-4">
+                    <h2 class="text-lg font-semibold" x-text="product.title"></h2>
+                    <!--<div class="flex items-center mb-2">
+                        <template x-for="i in 5">
+                            <svg class="w-5 h-5" :class="i <= Math.round(product.rating.rate) ? 'text-yellow-400' : 'text-gray-300'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </template>
+                    </div>-->
+                    
+                    <p class="text-gray-600" x-text="'$' + product.price"></p>
+                    <p class="text-gray-600" x-text="'' + product.category"></p>
+                    <button class="mt-4 bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600">Add to Cart</button>
+                  </div>
+                </div>
+              </template>
+          </div>
+        </div>
+      
+      </body>
+      </html>
